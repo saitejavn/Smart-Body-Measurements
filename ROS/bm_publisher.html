@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Based on demo found here:
+http://wiki.ros.org/roslibjs/Tutorials/BasicRosFunctionality
+http://wiki.ros.org/roslibjs/Tutorials/BasicRosFunctionality
+-->
+
+<!--
+The next two lines bring in the JavaScript files that support rosbridge integration.
+-->
+<script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+<script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+
+<script type="text/javascript" type="text/javascript">
+
+// This function connects to the rosbridge server running on the local computer on port 9090
+var rbServer = new ROSLIB.Ros({
+    url : 'ws://192.168.189.128:9090'
+ });
+
+ // This function is called upon the rosbridge connection event
+ rbServer.on('connection', function() {
+     // Write appropriate message to #feedback div when successfully connected to rosbridge
+     var fbDiv = document.getElementById('feedback');
+     fbDiv.innerHTML += "<p>Connected to websocket server.</p>";
+ });
+
+// This function is called when there is an error attempting to connect to rosbridge
+rbServer.on('error', function(error) {
+    // Write appropriate message to #feedback div upon error when attempting to connect to rosbridge
+    var fbDiv = document.getElementById('feedback');
+    fbDiv.innerHTML += "<p>Error connecting to websocket server.</p>";
+});
+
+// This function is called when the connection to rosbridge is closed
+rbServer.on('close', function() {
+    // Write appropriate message to #feedback div upon closing connection to rosbridge
+    var fbDiv = document.getElementById('feedback');
+    fbDiv.innerHTML += "<p>Connection to websocket server closed.</p>";
+ });
+
+// These lines create a topic object as defined by roslibjs
+var bm_chatter_Topic = new ROSLIB.Topic({
+    ros : rbServer,
+    name : '/bm_chatter',
+    messageType : '/bm.bm_message'
+});
+
+// These lines create a message that conforms to the structure of the Twist defined in our ROS installation
+// It initalizes all properties to zero. They will be set to appropriate values before we publish this message.
+var bm_message_1 = new ROSLIB.Message(
+    {
+        chest_size : 0.0,
+        waist_size : 0.0,
+        bottom_size : 0.0
+    });
+
+/* This function:
+ - retrieves numeric values from the text boxes
+ - assigns these values to the appropriate values in the twist message
+ - publishes the message to the cmd_vel topic.
+ */
+function pubMessage() {
+    /**
+    Set the appropriate values on the twist message object according to values in text boxes
+    It seems that turtlesim only uses the x property of the linear object 
+    and the z property of the angular object
+    **/
+    var chest_size = 0.0;
+    var waist_size = 0.0;
+    var bottom_size = 0.0;    
+
+    // get values from text input fields. Note for simplicity we are not validating.
+    chest_size = 0 + Number(document.getElementById('chest_size_Text').value);
+    waist_size = 0 + Number(document.getElementById('waist_size_Text').value);
+    bottom_size = 0 + Number(document.getElementById('bottom_size_Text').value);
+
+    // Set the appropriate values on the message object
+    bm_message_1.chest_size = chest_size;
+    bm_message_1.waist_size = waist_size;
+    bm_message_1.bottom_size = bottom_size;
+
+    // Publish the message 
+    bm_chatter_Topic.publish(bm_message_1);
+}
+</script>
+</head>
+
+<body>
+<form name="ctrlPanel">
+<p>Enter size values in the boxes below</p>
+<table>
+<tr><td>Chest Size </td><td><input id="chest_size_Text" name="chest_size_Text" type="number" value="1.5"/></td></tr>
+<tr><td>Waist Size </td><td><input id="waist_size_Text" name="waist_size_Text" type="number" value="1.5"/></td></tr>
+<tr><td>Bottom Size </td><td><input id="bottom_size_Text" name="bottom_size_Text" type="number" value="1.5"/></td></tr>
+</table>
+<button id="sendMsg" type="button" onclick="pubMessage()">Publish Message</button>
+</form>
+<div id="feedback"></div>
+</body>
+</html>
