@@ -1,0 +1,136 @@
+﻿<Page x:Class="KinectStreams.BodyMeasurements"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:KinectStreams"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="900"
+      Title="Body Measurements"
+      Unloaded="Page_Unloaded">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Back button and page title -->
+        <Grid Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="backButton" Click="Back_Click"
+                    Style="{StaticResource NavigationBackButtonNormalStyle}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    AutomationProperties.Name="Back"
+                    AutomationProperties.AutomationId="BackButton"
+                    AutomationProperties.ItemType="Navigation Button"/>
+            <TextBlock x:Name="pageTitle" Text="Body Measurements" Grid.Column="1" Style="{StaticResource HeaderTextBlockStyle}"
+                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Center" />
+        </Grid>
+
+
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="500"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height = "25"/>
+                    <RowDefinition Height = "25" />
+                    <RowDefinition Height = "25" />
+                    <RowDefinition Height = "25" />
+                    <RowDefinition Height = "25" />
+                    <RowDefinition Height = "25" />
+                    <RowDefinition Height = "25" />
+                    <RowDefinition Height = "25" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="500"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel  Grid.Row = "0" Grid.Column="0" Orientation="Horizontal">
+                    <Label Content="Detected" Width="100" />
+                    <CheckBox Name="front_detected_CheckBox" Content="Front" Width="75"/>
+                    <CheckBox Name="side_detected_Checkbox" Content="Side" Width="75"/>
+                </StackPanel>
+
+                <StackPanel  Grid.Row = "1" Grid.Column="0" Orientation="Horizontal">
+                    <Label Content="Waist Length" Width="100" />
+                    <Label Content="Front :" />
+                    <Label Name="waist_Front_Label" Content="0" Width="75"/>
+                    <Label Content="Side :" />
+                    <Label Name="waist_Side_Label" Content="0" Width="75"/>
+                    <Label Content="Size :" />
+                    <Label Name="waist_Size_Label" Content="0" Width="75"/>
+                </StackPanel>
+
+                <StackPanel  Grid.Row = "2" Grid.Column="0" Orientation="Horizontal">
+                    <Label Content="Bottom Length" Width="100" />
+                    <Label Content="Front :" />
+                    <Label Name="bottom_Front_Label" Content="0" Width="75"/>
+                    <Label Content="Side :" />
+                    <Label Name="bottom_Side_Label" Content="0" Width="75"/>
+                    <Label Content="Size :" />
+                    <Label Name="bottom_Size_Label" Content="0" Width="75"/>
+                </StackPanel>
+
+                <StackPanel  Grid.Row = "3" Grid.Column="0" Orientation="Horizontal">
+                    <Label Content="Shoulder Length" Width="100" />
+                    <Label Content="Front :" />
+                    <Label Name="shoulder_Front_Label" Content="0" Width="75"/>
+                    <Label Content="Side :" />
+                    <Label Name="shoulder_Side_Label" Content="0" Width="75"/>
+                </StackPanel>
+
+                <StackPanel  Grid.Row = "4" Grid.Column="0" Orientation="Horizontal">
+                    <Label Content="Chest Length" Width="100" />
+                    <Label Content="Front :" />
+                    <Label Name="chest_Front_Label" Content="0" Width="75"/>
+                    <Label Content="Side :" />
+                    <Label Name="chest_Side_Label" Content="0" Width="75"/>
+                    <Label Content="Size :" />
+                    <Label Name="chest_Size_Label" Content="0" Width="75"/>
+                </StackPanel>
+
+                <StackPanel  Grid.Row = "5" Grid.Column="0" Orientation="Horizontal">
+                    <Label Content="Sleeve Length" Width="100" />
+                    <Label Content="Front :" />
+                    <Label Name="sleeve_Front_Label" Content="0" Width="75"/>
+                    <Label Content="Side :" />
+                    <Label Name="sleeve_Side_Label" Content="0" Width="75"/>
+                </StackPanel>
+
+                <StackPanel  Grid.Row = "6" Grid.Column="0" Orientation="Horizontal">
+                    <Label Content="Size" Width="100" />
+                    <ComboBox Name="size_combobox" Width="75" >
+                        <ComboBoxItem >Small</ComboBoxItem>
+                        <ComboBoxItem>Medium</ComboBoxItem>
+                        <ComboBoxItem>Large</ComboBoxItem>
+                        <ComboBoxItem>X Large</ComboBoxItem>
+                    </ComboBox>
+
+                </StackPanel>
+
+                <StackPanel  Grid.Row = "7" Grid.Column="0" Orientation="Horizontal">
+                    <Label Content="Fit" Width="100"/>
+                    <ComboBox Name="fit_combobox" Width="75" SelectedValuePath="Tag" SelectionChanged="Fit_combobox_SelectionChanged">
+                        <ComboBoxItem Tag="0">Slim</ComboBoxItem>
+                        <ComboBoxItem Tag="4">Regular</ComboBoxItem>
+                        <ComboBoxItem Tag="8">Xtra Slim</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+
+            </Grid>
+            <Grid Grid.Column="1">
+                <Image Name="FrontFrameImageDisplay"></Image>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
